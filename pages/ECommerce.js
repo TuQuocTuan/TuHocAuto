@@ -14,6 +14,8 @@ export class ECommerce {
         this.nutcontinue = page.locator('input[class="submit-button btn btn_primary cart_button btn_action"]');
         this.nutfinish = page.locator('button[class="btn btn_action btn_medium cart_button"]');
         this.message = page.locator('h2[class="complete-header"]');
+        this.errorMessage = page.locator('h3[data-test="error"]');
+        
     }
 
     async goto() {
