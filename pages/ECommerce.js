@@ -11,11 +11,11 @@ export class ECommerce {
         this.firstname = page.locator('#first-name');
         this.lastname = page.locator('#last-name');
         this.zip = page.locator('#postal-code');
-        this.nutcontinue = page.locator('input[class="submit-button btn btn_primary cart_button btn_action"]');
-        this.nutfinish = page.locator('button[class="btn btn_action btn_medium cart_button"]');
+        this.nutcontinue = page.locator('#continue');
+        this.nutfinish = page.locator('button[data-test="finish"]');
         this.message = page.locator('h2[class="complete-header"]');
         this.errorMessage = page.locator('h3[data-test="error"]');
-        
+
     }
 
     async goto() {
