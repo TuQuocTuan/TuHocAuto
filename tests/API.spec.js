@@ -123,4 +123,59 @@ test.describe('Bài tập CRUD', () => {
         const response = await request.delete(`${baseURL}/posts/1`);
         expect(response.status()).toBe(200);
     })
-})
+
+    test('Tạo bài viết, tạo bình luận cho bài đó', async ({ request }) => {
+        const payload = {
+            title: "Bai viet cua Tuan",
+            body: "Noi dung huong dan API Testing",
+            userId: 1
+        }
+
+        const response = await request.post(`${baseURL}/posts`, {
+            data: payload,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const responsebody = await response.json();
+
+        expect(response.status()).toBe(201);
+        expect(responsebody.id).toBe(101);
+
+        const binhluan = {
+            postId: 101,
+            name: 'Binh luan test',
+            email: 'tuan@example.com',
+            body: 'bai viet rat hay'
+        }
+
+        const response_bl = await request.post(`${baseURL}/posts/`, {
+            data: binhluan,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        expect(response.status()).toBe(201);
+        const response_blbody = await response_bl.json();
+        expect(response_blbody.postId).toBe(101);
+        expect(response_blbody.email).toBe('tuan@example.com');
+    })
+
+    test('Query Params & Kiểm tra mảng dữ liệu', async ({ request }) => {
+        const response = await request.get(`${baseURL}/posts/?userId=5`);
+        const responsebody = await response.json();
+
+        expect(response.status()).toBe(200);
+        expect(responsebody.length).toBeGreaterThan(0);
+        for (const post of responsebody) {
+            expect(post.userId).toBe(5);
+        }
+    });
+
+    test('Xử lý trường hợp lỗi (Negative Test Case)', async ({ request }) => {
+        const response = await request.get(`${baseURL}/posts/9999`);
+
+        expect(response.status()).toBe(404);
+        expect(response.ok()).toBeFalsy();
+    })
+});
